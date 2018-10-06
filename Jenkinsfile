@@ -1,25 +1,20 @@
 node {
-    def server = Artifactory.server 'JFrogArtifactory'
-    def rtMaven = Artifactory.newMavenBuild()
-    def buildInfo
-
-    stage ('Clone') {
-        git url: 'https://github.com/jfrogdev/project-examples.git'
-    }
-
-    stage ('Artifactory configuration') {
-        rtMaven.tool = 'Maven' // Tool name from Jenkins configuration
-        rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local', server: server
-        rtMaven.resolver releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
-        buildInfo = Artifactory.newBuildInfo()
-        buildInfo.env.capture = true
-    }
-
-    stage ('Exec Maven') {
-        rtMaven.run pom: 'maven-example/pom.xml', goals: 'clean install', buildInfo: buildInfo
-    }
-
-    stage ('Publish build info') {
-        server.publishBuildInfo buildInfo
-    }
+   def mvnHome
+   stage('Preparation') { // for display purposes
+      // Get some code from a GitHub repository
+      //git 'https://github.com/jglick/simple-maven-project-with-tests.git'
+        git 'https://github.com/vinaykumarhebballi123/gitbox.git'
+   }
+   stage('Build') {
+       bat '''
+       echo "building!!!!!!!!!!!! "
+       call C:/vinay/test.bat stop
+       EXIT /B 0
+       '''
+   }
+   stage('Results') {
+       echo "results.........."
+       
+       build job: 
+   }
 }
